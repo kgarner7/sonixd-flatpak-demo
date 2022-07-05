@@ -1,0 +1,59 @@
+app-id: org.sonixd.Sonixd
+runtime: org.freedesktop.Platform
+runtime-version: '21.08'
+sdk: org.freedesktop.Sdk
+base: org.electronjs.Electron2.BaseApp
+base-version: '21.08'
+command: sonixd-wrapper
+rename-desktop-file: sonixd.desktop
+finish-args:
+  - --device=dri
+  - --own-name=org.mpris.MediaPlayer2.Sonixd
+  - --filesystem=xdg-run/app/com.discordapp.Discord:create
+  - --share=ipc
+  - --share=network
+  - --socket=pulseaudio
+  - --socket=wayland
+  - --socket=x11
+  - --system-talk-name=org.freedesktop.UPower
+  - --talk-name=com.canonical.AppMenu.Registrar
+  - --talk-name=com.canonical.dbusmenu
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.kde.StatusNotifierWatcher
+modules:
+  - name: sonixd
+    buildsystem: simple
+    build-commands:
+      - install -dm755 ${FLATPAK_DEST}/sonixd
+      - install -dm755 ${FLATPAK_DEST}/sonixd/resources/assets
+      - bsdtar -xf sonixd.tar.xz -C ${FLATPAK_DEST}/sonixd --strip-components=1 --exclude=./resources/assets/
+      - bsdtar -xf sonixd.tar.xz -C ${FLATPAK_DEST}/share --strip-components=3 ./Sonixd-0.15.2-linux-x64/resources/assets/icons
+      - mv ${FLATPAK_DEST}/share/icons/1024x1024.png ${FLATPAK_DEST}/share/icons/org.sonixd.Sonixd.png
+      - ln ${FLATPAK_DEST}/share/icons/org.sonixd.Sonixd.png ${FLATPAK_DEST}/sonixd/resources/assets/icon.png
+      - install -Dm755 sonixd-wrapper /app/bin/sonixd-wrapper
+      - install -Dm755 stub_sandbox ${FLATPAK_DEST}/sonixd/chrome-sandbox
+      - install -Dm755 sonixd -t ${FLATPAK_DEST}/bin/
+      - install -Dm644 ${FLATPAK_ID}.metainfo.xml -t /app/share/metainfo 
+      - install -Dm644 sonixd.desktop -t ${FLATPAK_DEST}/share/applications
+    sources:
+      - type: file
+        dest-filename: sonixd.tar.xz
+        url: https://github.com/jeffvli/sonixd/releases/download/v0.15.2/Sonixd-0.15.2-linux-x64.tar.xz
+        sha256: 988c61264e58e7a6f876616a8a03e14b90d43aa9d51fc79d4b19c5b09517840d
+      - type: script
+        dest-filename: sonixd
+        commands:
+          - export TMPDIR=$XDG_RUNTIME_DIR/app/$FLATPAK_ID
+          - exec zypak-wrapper /app/sonixd/sonixd "$@"
+      - type: script
+        dest-filename: stub_sandbox
+        commands:
+          - |
+            echo Stub sandbox ignoring command: $@
+            exit 1
+      - type: file
+        path: org.sonixd.Sonixd.metainfo.xml
+      - type: file
+        path: sonixd-wrapper
+      - type: file
+        path: sonixd.desktop

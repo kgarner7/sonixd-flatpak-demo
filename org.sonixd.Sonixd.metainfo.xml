@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.sonixd.Sonixd</id>
+  <name>Sonixd</name>
+  <summary>A full-featured Subsonic/Jellyfin compatible desktop music player</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0</project_license>
+  <developer_name>jeffvli</developer_name>
+  <url type="homepage">https://github.com/jeffvli/sonixd</url>
+  <url type="bugtracker">https://github.com/jeffvli/sonixd/issues</url>
+  <url type="donation">https://ko-fi.com/jeffvli</url>
+  <description>
+    <p>
+      Sonixd is a cross-platform desktop client built for Subsonic-API (and Jellyfin in 0.8.0+) compatible music servers. This project was inspired by the many existing clients, but aimed to address a few key issues including scalability, library management, and user experience.
+    </p>
+  </description>
+  <launchable type="desktop-id">sonixd.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/jeffvli/sonixd/main/assets/screenshots/0.13.1/album.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="v0.15.2" date="2022-06-06"/>
+  </releases>
+</component>
