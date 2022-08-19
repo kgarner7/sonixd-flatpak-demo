@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Sonixd
-Exec=sonixd-sonixd
+Exec=sonixd-wrapper
 Terminal=false
 Type=Application
 Icon=org.sonixd.Sonixd.png
-Categories=Audio;AudioVideo
+Categories=Audio

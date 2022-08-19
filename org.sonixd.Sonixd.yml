@@ -27,7 +27,7 @@ modules:
       - install -dm755 ${FLATPAK_DEST}/sonixd
       - install -dm755 ${FLATPAK_DEST}/sonixd/resources/assets
       - bsdtar -xf sonixd.tar.xz -C ${FLATPAK_DEST}/sonixd --strip-components=1 --exclude=./resources/assets/
-      - bsdtar -xf sonixd.tar.xz -C ${FLATPAK_DEST}/share --strip-components=3 ./Sonixd-0.15.2-linux-x64/resources/assets/icons
+      - bsdtar -xf sonixd.tar.xz -C ${FLATPAK_DEST}/share --strip-components=3 ./Sonixd-0.15.3-linux-x64/resources/assets/icons
       - mv ${FLATPAK_DEST}/share/icons/1024x1024.png ${FLATPAK_DEST}/share/icons/org.sonixd.Sonixd.png
       - ln ${FLATPAK_DEST}/share/icons/org.sonixd.Sonixd.png ${FLATPAK_DEST}/sonixd/resources/assets/icon.png
       - install -Dm755 sonixd-wrapper /app/bin/sonixd-wrapper
@@ -38,8 +38,13 @@ modules:
     sources:
       - type: file
         dest-filename: sonixd.tar.xz
-        url: https://github.com/jeffvli/sonixd/releases/download/v0.15.2/Sonixd-0.15.2-linux-x64.tar.xz
-        sha256: 988c61264e58e7a6f876616a8a03e14b90d43aa9d51fc79d4b19c5b09517840d
+        url: https://github.com/jeffvli/sonixd/releases/download/v0.15.3/Sonixd-0.15.3-linux-x64.tar.xz
+        sha256: 28c259ce8c0c9938c3c0e3812883b0f364f3b4ee92addc74528938f98610a1a6
+        x-checker-data:
+          type: json
+          url: https://api.github.com/repos/jeffvli/sonixd/releases/latest
+          version-query: .tag_name
+          url-query: .assets[] | select(.name | match("(x64.tar.xz)")) | browser_download_url
       - type: script
         dest-filename: sonixd
         commands:
